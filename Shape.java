@@ -1,16 +1,9 @@
 /*
-Course Number & Section:    CIS5200-W01
-Assignment Designation:     Project 2 – 10.13 pg. 439
-Name:                       Bernice Templeman
-
-10.13 (Project: Shape Hierarchy) 
-Implement the Shape hierarchy shown in Fig. 9.3. 
-
+ * Shape.java
  */
-package shapehierarchy;
+package shapetester1;
 
-// abstract class Shape
-public abstract class Shape 
+public class Shape 
 {
     private String color;  
     
@@ -44,4 +37,4 @@ public abstract class Shape
     {
         return String.format("%s : %s %nColor: %s", getClass().getSuperclass().getSimpleName(),getClass().getSimpleName() , getColor());
     }   
-}// end Shape class
+}

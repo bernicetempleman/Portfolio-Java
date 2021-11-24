@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package deitelmessenger;
-
+package project9.textreader;
 // Fig. 24.24: MessageManager.java
 // MessageManger is an interface for objects capable of managing
 // communications with a message server.
-
 
 public interface MessageManager 
 {      

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package deitelmessenger;
+package deitelmessengerservertest;
 
 // Fig. 24.21: MessageListener.java
 // MessageListener is an interface for classes that wish to

@@ -27,6 +27,15 @@ public class SocketMessageManager implements MessageManager
    private boolean connected = false; // connection status
    private ExecutorService serverExecutor; // executor for server
    
+      // address for multicast datagrams
+   public static final String MULTICAST_ADDRESS = "239.0.0.1";
+   
+   // port for listening for multicast datagrams
+   public static final int MULTICAST_LISTENING_PORT = 5555;
+   
+   // port for sending multicast datagrams
+   public static final int MULTICAST_SENDING_PORT = 5554;
+   
    // port for Socket connections to DeitelMessengerServer
    public static final int SERVER_PORT = 12349;   
    

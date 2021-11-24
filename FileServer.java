@@ -3,189 +3,85 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project.pkg9.fileserver;
+package project9.textreader;
 
-import java.net.*;
-   import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+
+/**
+ *
+ * @author Bernice
+ */
+public class FileServer implements MessageListener 
+{
+    
+    // Fig. 24.18: DeitelMessengerServer.java
+// DeitelMessengerServer is a multithreaded, socket- and 
+// packet-based chat server.
+    
+   // port for Socket connections to DeitelMessengerServer
+   public static final int SERVER_PORT = 12349;   
    
-   public class FileServer {
+   // String that indicates disconnect
+   public static final String DISCONNECT_STRING = "DISCONNECT";
+
+   // String that separates the user name from the message body
+   public static final String MESSAGE_SEPARATOR = ">>>";
+
+   // message size (in bytes)
+   public static final int MESSAGE_SIZE = 512;
+
+   private ExecutorService serverExecutor; // executor for server
    
-      static final int LISTENING_PORT = 3210;
-   
-   
-      public static void main(String[] args) {
-      
-         File directory;        // The directory from which the
-                                //    gets the files that it serves.
-         ServerSocket listener; // Listens for connection requests.
-         Socket connection;     // A socket for communicating with
-                                //                a client.
+   // start chat server
+   public void startServer() 
+   {
+      // create executor for server runnables
+      serverExecutor = Executors.newCachedThreadPool();
+
+      try // create server and manage new clients
+      {
+         // create ServerSocket for incoming connections
+         ServerSocket serverSocket = 
+            new ServerSocket( SERVER_PORT, 100 );
          
-   
-         /* Check that there is a command-line argument.
-            If not, print a usage message and end. */
+         System.out.printf( "%s%d%s", "Server listening on port ", 
+            SERVER_PORT, " ..." );
          
-         if (args.length == 0) {
-            //System.out.println("Usage:  java FileServer <directory>");
-            //return;
-             directory = new File("C:\\Users\\Bernice\\Documents\\JavaTestDirectory");
-            if ( ! directory.exists() ) {
-            System.out.println("Specified directory does not exist.");
-            return;
-         }
-         if (! directory.isDirectory() ) {
-            System.out.println("The specified file is not a directory.");
-            return;
-         }
-         }
-         
-         else
+         // listen for clients constantly
+         while ( true ) 
          {
-         /* Get the directory name from the command line, and make
-            it into a file object.  Check that the file exists and
-            is in fact a directory. */
+            // accept new client connection
+            Socket clientSocket = serverSocket.accept();
             
-         directory = new File(args[0]);
-         if ( ! directory.exists() ) {
-            System.out.println("Specified directory does not exist.");
-            return;
-         }
-         if (! directory.isDirectory() ) {
-            System.out.println("The specified file is not a directory.");
-            return;
-         }
-         }
-         
-         /* Listen for connection requests from clients.  For
-            each connection, create a separate Thread of type
-            ConnectionHandler to process it.  The ConnectionHandler
-            class is defined below.  The server runs until the
-            program is terminated, for example by a CONTROL-C. */
-               
-         try {
-            listener = new ServerSocket(LISTENING_PORT);
-            System.out.println("Listening on port " + LISTENING_PORT);
-            while (true) {
-               connection = listener.accept();
-               new ConnectionHandler(directory,connection);
-            }
-         }
-         catch (Exception e) {
-            System.out.println("Server shut down unexpectedly.");
-            System.out.println("Error:  " + e);
-            return;
-         }
-         
-      } // end main()
+            // create MessageReceiver for receiving messages from client
+            serverExecutor.execute( 
+               new MessageReceiver( this, clientSocket ) );
+                        
+            // print connection information
+            System.out.println( "Connection received from: " +
+               clientSocket.getInetAddress() );
+         } // end while     
+      } // end try
+      catch ( IOException ioException )
+      {
+         ioException.printStackTrace();
+      } // end catch
+   } // end method startServer
+   
+   // when new message is received, broadcast message to clients
+   public void messageReceived( String from, String message ) 
+   {          
+      // create String containing entire message
+      String completeMessage = from + MESSAGE_SEPARATOR + message;
       
-      
-   
-      static class ConnectionHandler extends Thread {
-           // An object of this class is a thread that will
-           // process the connection with one client.  The
-           // thread starts itself in the constructor.
-      
-         File directory;       // The directory from which files are served
-         Socket connection;    // A connection to the client.
-         TextReader incoming;  // For reading data from the client.
-         PrintWriter outgoing; // For transmitting data to the client.
-         
-         
-         ConnectionHandler(File dir, Socket conn) {
-               // Constructor.  Record the connection and
-               // the directory and start the thread running.
-            directory = dir;
-            connection = conn;
-            start();
-         }
-         
-   
-         void sendIndex() throws Exception {
-               // This is called by the run() method in response
-               // to an "index" command.  Send the list of files
-               // in the directory.
-            String[] fileList = directory.list();
-            for (int i = 0; i < fileList.length; i++)
-               outgoing.println(fileList[i]);
-            outgoing.flush();
-            outgoing.close();
-            if (outgoing.checkError())
-               throw new Exception("Error while transmitting data.");
-         }
-         
-   
-         void sendFile(String fileName) throws Exception {
-               // This is called by the run() command in response
-               // to "get <fileName>" command.  If the file doesn't
-               // exist, send the message "error".  Otherwise,
-               // send the message "ok" followed by the contents
-               // of the file.
-            File file = new File(directory,fileName);
-            if ( (! file.exists()) || file.isDirectory() ) {
-                 // (Note:  Don't try to send a directory, which
-                 // shouldn't be there anyway.)
-               outgoing.println("error");
-            }
-            else {
-               outgoing.println("ok");
-               TextReader fileIn = new TextReader( new FileReader(file) );
-               while (fileIn.peek() != '\0') {
-                     // Read and send lines from the file until
-                     // an end-of-file is encountered.
-                  String line = fileIn.getln();
-                  outgoing.println(line);
-               }
-            }
-            outgoing.flush(); 
-            outgoing.close();
-            if (outgoing.checkError())
-               throw new Exception("Error while transmitting data.");
-         }
-         
-   
-         public void run() {
-               // This is the method that is executed by the thread.
-               // It creates streams for communicating with the client,
-               // reads a command from the client, and carries out that
-               // command.  The connection is logged to standard output.
-               // An output beginning with ERROR indicates that a network
-               // error occurred.  A line beginning with OK means that
-               // there was no network error, but does not imply that the
-               // command from the client was a legal command.
-            String command = "Command not read";
-            try {
-               incoming = new TextReader( connection.getInputStream() );
-               outgoing = new PrintWriter( connection.getOutputStream() );
-               command = incoming.getln();
-               if (command.equals("index")) {
-                  sendIndex();
-               }
-               else if (command.startsWith("get")){
-                  String fileName = command.substring(3).trim();
-                  sendFile(fileName);
-               }
-               else {
-                  outgoing.println("unknown command");
-                  outgoing.flush();
-               }
-               System.out.println("OK    " + connection.getInetAddress()
-                                           + " " + command);
-            }
-            catch (Exception e) {
-               System.out.println("ERROR " + connection.getInetAddress()
-                                        + " " + command + " " + e);
-            }
-            finally {
-               try {
-                  connection.close();
-               }
-               catch (IOException e) {
-               }
-            }
-         }
-      
-      }  // end nested class ConnectionHandler
-     
-   
-   } //end class FileServer
-
+      /* create and start MulticastSender to broadcast messages
+      serverExecutor.execute( 
+         new MulticastSender( completeMessage.getBytes() ) );
+              */
+   } // end method messageReceived
+} // end class DeitelMessengerServer
+    

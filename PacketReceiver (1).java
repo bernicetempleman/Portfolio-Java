@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package deitelmessenger;
+package project9.textreader;
 
 // Fig. 24.27: PacketReceiver.java
 // PacketReceiver listens for DatagramPackets containing
 // messages from a DeitelMessengerServer.
+
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -16,13 +17,16 @@ import java.net.DatagramPacket;
 import java.net.SocketTimeoutException;
 import java.util.StringTokenizer;
 
+
+
 public class PacketReceiver implements Runnable 
 {
    private MessageListener messageListener; // receives messages
+   private MulticastSocket multicastSocket; // receive broadcast messages
    private InetAddress multicastGroup; // InetAddress of multicast group
    private boolean keepListening = true; // terminates PacketReceiver
    
-   // port for Socket connections to DeitelMessengerServer
+     // port for Socket connections to DeitelMessengerServer
    public static final int SERVER_PORT = 12349;   
    
    // String that indicates disconnect
@@ -37,7 +41,9 @@ public class PacketReceiver implements Runnable
    public PacketReceiver( MessageListener listener ) 
    {
       messageListener = listener; // set MessageListener
-
+      
+      
+      
    } // end PacketReceiver constructor
    
    // listen for messages from multicast group 
@@ -53,7 +59,19 @@ public class PacketReceiver implements Runnable
          DatagramPacket packet = new DatagramPacket( buffer, 
             MESSAGE_SIZE );
 
-
+         try // receive new DatagramPacket (blocking call)
+         {            
+            multicastSocket.receive( packet ); 
+         } // end try
+         catch ( SocketTimeoutException socketTimeoutException ) 
+         {
+            continue; // continue to next iteration to keep listening
+         } // end catch
+         catch ( IOException ioException ) 
+         {
+            ioException.printStackTrace();
+            break;
+         } // end catch
 
          // put message data in a String
          String message = new String( packet.getData() );
@@ -75,7 +93,7 @@ public class PacketReceiver implements Runnable
          } // end if
       } // end while
 
-
+     
    } // end method run
    
    // stop listening for new messages
