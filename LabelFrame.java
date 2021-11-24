@@ -1,4 +1,11 @@
-// Fig. 26.6: LabelFrame.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Chapter12_Swing_Examples;
+
+// Fig. 12.6: LabelFrame.java
 // JLabels with text and icons.
 import java.awt.FlowLayout; // specifies how components are arranged
 import javax.swing.JFrame; // provides basic window features
@@ -25,7 +32,7 @@ public class LabelFrame extends JFrame
       add(label1); // add label1 to JFrame
 
       // JLabel constructor with string, Icon and alignment arguments
-      Icon bug = new ImageIcon(getClass().getResource("bug1.png"));
+      Icon bug = new ImageIcon("C:\\Users\\Bernice\\Documents\\CIS5200-AdvancedProgramming-Java\\ch12\\fig12_06_07\\bug1.png");
       label2 = new JLabel("Label with text and icon", bug, 
          SwingConstants.LEFT);
       label2.setToolTipText("This is label2");
@@ -40,19 +47,3 @@ public class LabelFrame extends JFrame
       add(label3); // add label3 to JFrame
    } 
 } // end class LabelFrame
-
-
-/**************************************************************************
- * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/

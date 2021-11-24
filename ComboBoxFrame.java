@@ -1,4 +1,11 @@
-// Fig. 26.21: ComboBoxFrame.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Chapter12_Swing_Examples;
+
+// Fig. 12.21: ComboBoxFrame.java
 // JComboBox that displays a list of image names.
 import java.awt.FlowLayout;
 import java.awt.event.ItemListener;
@@ -14,13 +21,15 @@ public class ComboBoxFrame extends JFrame
    private final JComboBox<String> imagesJComboBox; // hold icon names
    private final JLabel label; // displays selected icon
 
+   //C:\Users\Bernice\Documents\CIS5200-AdvancedProgramming-Java\ch12\fig12_21_22
    private static final String[] names = 
       {"bug1.gif", "bug2.gif",  "travelbug.gif", "buganim.gif"};
+   String dir = "C:\\Users\\Bernice\\Documents\\CIS5200-AdvancedProgramming-Java\\ch12\\fig12_21_22\\";
    private final Icon[] icons = { 
-      new ImageIcon(getClass().getResource(names[0])),
-      new ImageIcon(getClass().getResource(names[1])), 
-      new ImageIcon(getClass().getResource(names[2])),
-      new ImageIcon(getClass().getResource(names[3]))};
+      new ImageIcon(dir + names[0]),
+      new ImageIcon(dir + names[1]), 
+      new ImageIcon(dir + names[2]),
+      new ImageIcon(dir + names[3])};
 
    // ComboBoxFrame constructor adds JComboBox to JFrame
    public ComboBoxFrame()
@@ -51,19 +60,3 @@ public class ComboBoxFrame extends JFrame
       add(label); // add label to JFrame
    }
 } // end class ComboBoxFrame
-
-
-/**************************************************************************
- * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/

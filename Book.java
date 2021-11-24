@@ -1,23 +1,34 @@
-package com.in28min.oops;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package library;
 
-public class Book {
-	private int noOfCopies;
-	void start() {
-		System.out.println("written");
-	}
-
-	/**
-	 * @return the noOfCopies
-	 */
-	public int getNoOfCopies() {
-		return noOfCopies;
-	}
-
-	/**
-	 * @param noOfCopies the noOfCopies to set
-	 */
-	public void setNoOfCopies(int noOfCopies) {
-		this.noOfCopies = noOfCopies;
-	}
-
+/**
+ *
+ * @author Bernice
+ */
+public abstract class Book {
+    
+    public static int totalBooks = 0;
+    
+    protected int numPages;
+    
+    protected String name = "Book Name";
+    
+    protected int length(){
+        return numPages;
+    }
+    
+    // all subclasses must implement
+    // and you can call this on any Book without knowing what type of subclass book
+    public abstract void readBook();
+    
+    public String getName()
+    {
+        return name;
+    }
+    
+    
 }

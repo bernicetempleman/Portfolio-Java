@@ -1,4 +1,10 @@
-// Fig. 26.15: ButtonFrame.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Chapter12_Swing_Examples;
+// Fig. 12.15: ButtonFrame.java
 // Command buttons and action events.
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
@@ -23,8 +29,8 @@ public class ButtonFrame extends JFrame
       plainJButton = new JButton("Plain Button"); // button with text
       add(plainJButton); // add plainJButton to JFrame
 
-      Icon bug1 = new ImageIcon(getClass().getResource("bug1.gif"));
-      Icon bug2 = new ImageIcon(getClass().getResource("bug2.gif"));
+      Icon bug1 = new ImageIcon("C:\\Users\\Bernice\\Documents\\CIS5200-AdvancedProgramming-Java\\ch12\\fig12_15_16\\bug1.gif");
+      Icon bug2 = new ImageIcon("C:\\Users\\Bernice\\Documents\\CIS5200-AdvancedProgramming-Java\\ch12\\fig12_15_16\\bug2.gif");
       fancyJButton = new JButton("Fancy Button", bug1); // set image
       fancyJButton.setRolloverIcon(bug2); // set rollover image
       add(fancyJButton); // add fancyJButton to JFrame
@@ -47,18 +53,3 @@ public class ButtonFrame extends JFrame
       }
    } 
 } // end class ButtonFrame
-
-/**************************************************************************
- * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/

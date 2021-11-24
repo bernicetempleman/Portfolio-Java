@@ -1,3 +1,14 @@
+/*
+Figures 13.24–13.25 demonstrate the arc methods of 
+Fig. 13.23. The application draws six arcs 
+(three unfilled and three filled).
+To illustrate the bounding rectangle that helps determine 
+where the arc appears, the first three arcs are displayed inside a red rectangle
+that has the same x, y,
+width and height arguments as the arcs.
+*/
+package drawarcs;
+
 // Fig. 13.24: ArcsJPanel.java
 // Drawing arcs.
 import java.awt.Color;
@@ -40,18 +51,3 @@ public class ArcsJPanel extends JPanel
       g.fillArc(185, 120, 80, 40, 0, -270);
    } 
 } // end class ArcsJPanel
-
-/**************************************************************************
- * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/
