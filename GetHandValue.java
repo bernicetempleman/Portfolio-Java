@@ -1,5 +1,5 @@
 
-package com.deitel.welcomesoap;
+package com.deitel.blackjack;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for welcome complex type.
+ * <p>Java class for getHandValue complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="welcome">
+ * &lt;complexType name="getHandValue">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="hand" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -26,35 +26,35 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "welcome", propOrder = {
-    "name"
+@XmlType(name = "getHandValue", propOrder = {
+    "hand"
 })
-public class Welcome {
+public class GetHandValue {
 
-    protected String name;
+    protected String hand;
 
     /**
-     * Gets the value of the name property.
+     * Gets the value of the hand property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getName() {
-        return name;
+    public String getHand() {
+        return hand;
     }
 
     /**
-     * Sets the value of the name property.
+     * Sets the value of the hand property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setName(String value) {
-        this.name = value;
+    public void setHand(String value) {
+        this.hand = value;
     }
 
 }

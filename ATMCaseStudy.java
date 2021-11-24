@@ -1,12 +1,18 @@
-// Fig. 36.x: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
-}
+// ATMCaseStudy.java
+// Driver program for the ATM case study
+
+public class ATMCaseStudy {
+   // main method creates and runs the ATM
+   public static void main(String[] args) {
+      ATM theATM = new ATM();    
+      theATM.run();
+   }
+} 
 
 
-/*
- **************************************************************************
+
+
+/**************************************************************************
  * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
  * Pearson Education, Inc. All Rights Reserved.                           *
  *                                                                        *
@@ -19,6 +25,4 @@ module com.deitel.timetest {
  * and publisher shall not be liable in any event for incidental or       *
  * consequential damages in connection with, or arising out of, the       *
  * furnishing, performance, or use of these programs.                     *
- **************************************************************************
-*/
-
+ *************************************************************************/

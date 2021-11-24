@@ -1,12 +1,26 @@
-// Fig. 36.x: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
-}
+// Screen.java
+// Represents the screen of the ATM
+
+public class Screen {
+   // display a message without a carriage return
+   public void displayMessage(String message) {
+      System.out.print(message); 
+   } 
+
+   // display a message with a carriage return
+   public void displayMessageLine(String message) {
+      System.out.println(message);   
+   } 
+
+   // displays a dollar amount
+   public void displayDollarAmount(double amount) {
+      System.out.printf("$%,.2f", amount);   
+   }
+} 
 
 
-/*
- **************************************************************************
+
+/**************************************************************************
  * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
  * Pearson Education, Inc. All Rights Reserved.                           *
  *                                                                        *
@@ -19,6 +33,4 @@ module com.deitel.timetest {
  * and publisher shall not be liable in any event for incidental or       *
  * consequential damages in connection with, or arising out of, the       *
  * furnishing, performance, or use of these programs.                     *
- **************************************************************************
-*/
-
+ *************************************************************************/

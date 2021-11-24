@@ -1,12 +1,15 @@
-// Fig. 36.x: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
-}
+// DepositSlot.java
+// Represents the deposit slot of the ATM
 
+public class DepositSlot {
+   // indicates whether envelope was received (always returns true, 
+   // because this is only a software simulation of a real deposit slot)
+   public boolean isEnvelopeReceived() {
+      return true; // deposit envelope was received
+   } 
+} 
 
-/*
- **************************************************************************
+/**************************************************************************
  * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
  * Pearson Education, Inc. All Rights Reserved.                           *
  *                                                                        *
@@ -19,6 +22,4 @@ module com.deitel.timetest {
  * and publisher shall not be liable in any event for incidental or       *
  * consequential damages in connection with, or arising out of, the       *
  * furnishing, performance, or use of these programs.                     *
- **************************************************************************
-*/
-
+ *************************************************************************/

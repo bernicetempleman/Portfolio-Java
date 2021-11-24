@@ -1,12 +1,12 @@
-// Fig. 36.x: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
+// Fig. 36.26: ProblemProvider.java
+// Service-provider interface for obtaining a Problem
+package com.deitel.mathtutor.spi;
+
+public interface ProblemProvider {
+   public Problem getProblem();
 }
 
-
-/*
- **************************************************************************
+/**************************************************************************
  * (C) Copyright 1992-2018 by Deitel & Associates, Inc. and               *
  * Pearson Education, Inc. All Rights Reserved.                           *
  *                                                                        *
@@ -19,6 +19,4 @@ module com.deitel.timetest {
  * and publisher shall not be liable in any event for incidental or       *
  * consequential damages in connection with, or arising out of, the       *
  * furnishing, performance, or use of these programs.                     *
- **************************************************************************
-*/
-
+ *************************************************************************/

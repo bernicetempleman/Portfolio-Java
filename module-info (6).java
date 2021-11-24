@@ -1,7 +1,7 @@
 // Fig. 36.x: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
+// Module declaration for the com.deitel.timelibrary module
+module com.deitel.timelibrary {
+   //exports com.deitel.timelibrary; // package available to other modules
 }
 
 

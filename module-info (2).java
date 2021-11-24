@@ -1,7 +1,10 @@
-// Fig. 36.14: module-info.java
-// Module declaration for the com.deitel.timetest module
-module com.deitel.timetest {
-   requires com.deitel.timelibrary;
+// Fig. 36.33: module-info.java
+// Module declaration for the com.deitel.multiplicationprovider module
+module com.deitel.multiplicationprovider {
+   requires com.deitel.mathtutor;
+
+   provides com.deitel.mathtutor.spi.ProblemProvider with 
+      com.deitel.multiplicationprovider.MultiplicationProblemProvider; 
 }
 
 

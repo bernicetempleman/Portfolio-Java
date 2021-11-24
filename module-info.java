@@ -1,7 +1,7 @@
-// Fig. 36.7: module-info.java
-// Module declaration for the com.deitel.welcome module
-module com.deitel.welcome {
-   requires java.base; // implicit in all modules, so can be omitted
+// Fig. 36.14: module-info.java
+// Module declaration for the com.deitel.timetest module
+module com.deitel.timetest {
+   requires com.deitel.timelibrary;
 }
 
 

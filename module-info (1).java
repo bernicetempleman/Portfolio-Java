@@ -1,13 +1,7 @@
-// Fig. 36.21: module-info.java
-// Module declaration for the com.deitel.videoplayer module
-module com.deitel.videoplayer {
-   requires javafx.controls;
-   requires javafx.fxml;
-   requires javafx.media;
-   requires controlsfx; // automatic module for ControlsFX
-
-   exports com.deitel.videoplayer;
-   opens com.deitel.videoplayer to javafx.fxml;
+// Fig. 36.12: module-info.java
+// Module declaration for the com.deitel.timelibrary module
+module com.deitel.timelibrary {
+   exports com.deitel.timelibrary; // package available to other modules
 }
 
 
