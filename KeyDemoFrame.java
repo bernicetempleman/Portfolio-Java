@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Chapter12_Swing_Examples;
+package keydemo12.pkg36;
 
 // Fig. 12.36: KeyDemoFrame.java
 // Key event handling.

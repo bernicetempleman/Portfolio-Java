@@ -3,12 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Chapter12_Swing_Examples;
-
-/**
- *
- * @author Bernice
- */
+package textfieldinnerclass12.pkg9;
 // Fig. 12.9: TextFieldFrame.java
 // JTextFields and JPasswordFields.
 import java.awt.FlowLayout;
