@@ -1,9 +1,8 @@
-package algs.blog.multithread.array;
+package algs.model.array;
 
 import java.util.Comparator;
 
 import algs.model.array.IPivotIndex;
-import algs.blog.multithread.convexhull.ConvexHullScan;
 
 /**
  * Implement a multi-threaded QuickSort that allows any number of helper threads
@@ -12,7 +11,7 @@ import algs.blog.multithread.convexhull.ConvexHullScan;
  * Essentially an extension of {@link QuickSort} where the array contains objects
  * that, by default, do not implement {@link Comparable} but there is a method
  * which can be used to compare two elements. This class was designed to let us
- * investigate the ability to use {@link QuickSort} within {@link ConvexHullScan}
+ * investigate the ability to use {@link QuickSort} within {@link algs.model.problems.convexhull.andrew.ConvexHullScan}
  * <p>
  * Note that {@link IPivotIndex} was mistakenly specified to take an array of {@link Comparable}
  * so we couldn't use this interface. 
@@ -27,7 +26,7 @@ public class QuickSortExternal<E> {
 	/**
 	 * Helper interface that does not rely on Comparable.
 	 */
-	interface PivotIndex<E> {
+	public interface PivotIndex<E> {
 		/** 
 		 * Select a pivot from the given subarray ar[left,right].
 		 * 
@@ -87,14 +86,18 @@ public class QuickSortExternal<E> {
 	 * Set the threshold ratio below which a separate thread is used
 	 * on problem sizes.
 	 * 
-	 * @param t   new threshold
+	 * @param r   new threshold ratio
 	 */
 	public void setThresholdRatio (int r) {
 		this.ratio = r;
 		threshold = ar.length/ratio;
 	}
 
-	/** Determine the method used to select a pivot index. */
+	/** 
+	 * Determine the method used to select a pivot index. 
+	 *
+	 * @param ipi    method for selecting pivot.
+	 */
 	public void setPivotMethod (QuickSortExternal.PivotIndex<E> ipi) {
 		this.pi = ipi;
 	}
@@ -147,8 +150,8 @@ public class QuickSortExternal<E> {
 	/**
 	 * Sort using quicksort method.
 	 * 
-	 * @param left     The left-bounds within which to sort (0 <= left < ar.length)
-	 * @param right    The right-bounds within which to sort (0 <= right < ar.length)
+	 * @param left     The left-bounds within which to sort (0 &le; left &lt; ar.length)
+	 * @param right    The right-bounds within which to sort (0 &le; right &lt; ar.length)
 	 */
 	public void qsort (final int left, final int right) {
 		qsort2(left, right);
@@ -161,8 +164,8 @@ public class QuickSortExternal<E> {
 	/**
 	 * Single-thread sort using quicksort method.
 	 * <p>
-	 * @param left     The left-bounds within which to sort (0 <= left < ar.length)
-	 * @param right    The right-bounds within which to sort (0 <= right < ar.length)
+	 * @param left     The left-bounds within which to sort (0 &le; left &lt; ar.length)
+	 * @param right    The right-bounds within which to sort (0 &le; right &lt; ar.length)
 	 */
 	public void qsortN (int left, int right) {
 		if (right <= left) { return; }
@@ -178,8 +181,8 @@ public class QuickSortExternal<E> {
 	/**
 	 * Multi-threaded quicksort method entry point.
 	 * 
-	 * @param left     The left-bounds within which to sort (0 <= left < ar.length)
-	 * @param right    The right-bounds within which to sort (0 <= right < ar.length)
+	 * @param left     The left-bounds within which to sort (0 &le; left &lt; ar.length)
+	 * @param right    The right-bounds within which to sort (0 &le; right &lt; ar.length)
 	 */
 	private void qsort2 (final int left, final int right) {
 		if (right <= left) { return; }
@@ -234,17 +237,30 @@ public class QuickSortExternal<E> {
 		}
 	}
 
-	/** Return a last selector to use. */
+	/** 
+	 * Return a last selector to use. 
+	 *
+	 * @return select for last element.
+	 */
 	public PivotIndex<E> lastSelector() {
 		return new LastSelector();
 	}
 	
-	/** Return a first selector to use. */
+	/** 
+	 * Return a first selector to use. 
+	 * 
+	 * @return select for first element.
+	 */
+
 	public PivotIndex<E> firstSelector() {
 		return new FirstSelector();
 	}
 	
-	/** Return a random selector to use. */
+	/**
+	 * Return a random selector to use. 
+	 *
+	 * @return select for random element.
+	 */
 	public PivotIndex<E> randomSelector() {
 		return new RandomSelector();
 	}

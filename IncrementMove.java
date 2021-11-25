@@ -1,4 +1,4 @@
-package algs.blog.example.model.problems;
+package algs.example.model.problems.pseudocodeExample;
 
 import algs.model.searchtree.IMove;
 import algs.model.searchtree.INode;
@@ -26,7 +26,7 @@ public class IncrementMove implements IMove {
 
 	/** Execute a move. */
 	public boolean execute(INode state) {
-		SmallPuzzle tp = (SmallPuzzle) state;
+		TinyPuzzle tp = (TinyPuzzle) state;
 		tp.s[pos]++;
 		return true;
 	}
@@ -38,9 +38,8 @@ public class IncrementMove implements IMove {
 
 	/** Undo a move. */
 	public boolean undo(INode state) {
-		SmallPuzzle tp = (SmallPuzzle) state;
+		TinyPuzzle tp = (TinyPuzzle) state;
 		tp.s[pos]--;
 		return true;
 	}
-
 }

@@ -1,16 +1,13 @@
-package algs.chapter10.table2;
+package algs.chapter9.table8;
 
 
 /**
- * Try to show O(n^(1-1/d)+k) behavior where n is the number of elements in the
- * kd-tree being searched for the range query and k is the number of found
+ * Try to show O(n^(1-1/d)+r) behavior where n is the number of elements in the
+ * kd-tree being searched for the range query and r is the number of found
  * points.
  * 
- * Test on three setups:
+ * Test :
  * 
- * (a) WHOLE TREE: query will be [-scale*2, scale*2, -scale*2, scale*2]
- * (b) QUARTER TREE: query will be [ scale*.52, scale, scale*.52, scale]
- *      upper 23% of the tree range
  * (c) RANGE with no points (or at least, will be a range == a single point)
  */
 import java.text.NumberFormat;
@@ -28,6 +25,7 @@ import algs.model.tests.common.TrialSuite;
 
 class Counter implements IVisitKDNode {
 	int ct;
+	int numDrained;
 
 	public void visit(DimensionalNode node) {
 		ct++;					
@@ -35,6 +33,7 @@ class Counter implements IVisitKDNode {
 
 	public void drain (DimensionalNode node) {
 		ct++;
+		numDrained++;
 	}
 }
 
@@ -58,13 +57,14 @@ public class Main {
 		}
 
 		return points;
-	}	
+	}
+
 
 	public static void main (String []args) {
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(2);
 		nf.setGroupingUsed(false);
-		
+
 		rGen = new Random();
 		rGen.setSeed(1);  // be consistent across platforms and runs.
 
@@ -72,17 +72,17 @@ public class Main {
 		int numSearches = 128;
 		int NUM_TRIALS = 100;
 		int maxN = 131072;
-		int maxD = 5;
 		int scale = 4000;
+		int maxD = 5;
 
-		System.out.println("n\td=2 RQ\td=3 RQ\td=4 RQ\td=5 RQ\td=2 BF\td=3 BF\td=4 BF\td=5 BF");
-		
+		System.out.println("n\td=2 BF\td=3 BF\td=4 BF\td=5 BF\td=2 RQ\td=3 RQ\td=4 RQ\td=5 RQ");
+
 		for (int n=4096; n <= maxN; n*=2) {
 			double results_RQ[] = new double[maxD+1];  // +1 for easier coding later
 			double results_BF[] = new double[maxD+1];
 			for (int d = 2; d <= maxD; d++) {
-				TrialSuite kdSearch1 = new TrialSuite();
-				TrialSuite bfSearch1 = new TrialSuite();
+				TrialSuite kdSearch3 = new TrialSuite();
+				TrialSuite bfSearch3 = new TrialSuite();
 
 				Counter kd_count = new Counter();
 				Counter bf_count = new Counter();
@@ -93,56 +93,59 @@ public class Main {
 					// create n random points in d dimensions drawn from [0,1] uniformly
 					IMultiPoint[] points = randomPoints (n, d, scale);
 
-					// Perform a number of searches drawn from same [0,scale] uniformly.
+					// Perform a number of searches drawn from same [0,1] uniformly.
 					System.gc();
 
 					// This forms the basis for the kd-tree. These are the points p. Note
 					// that the KDTree generate method will likely shuffle the points. 
-					now = System.currentTimeMillis();
 					KDTree tree = KDFactory.generate(points);
-					done = System.currentTimeMillis();
 
 					// space1: Entire tree
 					double lows[] = new double[d], highs[] = new double[d];
+
+					// empty: unlikely to find another random d-dimensional point.
 					for (int k = 0; k < d; k++) {
-						lows[k] = -2*scale;
-						highs[k] = 2*scale;
+						lows[k] = rGen.nextDouble();
+						highs[k] = lows[k];
 					}
-					Hypercube space1 = new Hypercube (lows, highs);
+					Hypercube space3 = new Hypercube (lows, highs);
 
 					System.gc();
 					now = System.currentTimeMillis();
 					for (int ns = 0; ns < numSearches; ns++) {
-						/* results1 = */ tree.range(space1, kd_count);
+						/* results3 = */ tree.range(space3, kd_count);
 					}
 					done = System.currentTimeMillis();
-					kdSearch1.addTrial(n, now, done);
+					kdSearch3.addTrial(n, now, done);
 
 					BruteForceRangeQuery bfrq = new BruteForceRangeQuery(points);
+
 					System.gc();
 					now = System.currentTimeMillis();
 					for (int ns = 0; ns < numSearches; ns++) {
-						bfrq.search(space1, bf_count);
+						/* results3_bf = */ bfrq.search(space3, bf_count);
 					}
 					done = System.currentTimeMillis();
-					bfSearch1.addTrial(n, now, done);
+					bfSearch3.addTrial(n, now, done);
 
 					// weak form of comparison
 					if (kd_count.ct != bf_count.ct) {
-						System.err.println("result1 fails");
+						System.out.println("result1 fails");
 					}
 				}
 
-				results_RQ[d] = Double.valueOf(kdSearch1.getAverage(n));
-				results_BF[d] = Double.valueOf(bfSearch1.getAverage(n));
+				results_BF[d] = Double.valueOf(bfSearch3.getAverage(n));
+				results_RQ[d] = Double.valueOf(kdSearch3.getAverage(n));
 			}
 
 			System.out.print(n + "\t");
 			for (int d = 2; d <= 5; d++) {
-				System.out.print(nf.format(results_RQ[d]) + "\t");
+				System.out.print(nf.format(results_BF[d]));
+				System.out.print("\t");
 			}
 			for (int d = 2; d <= 5; d++) {
-				System.out.print(nf.format(results_BF[d]) + "\t");
+				System.out.print(nf.format(results_RQ[d]));
+				System.out.print("\t");
 			}
 			System.out.println();
 		}

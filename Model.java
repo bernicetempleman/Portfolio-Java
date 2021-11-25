@@ -1,60 +1,87 @@
-package algs.example.gui.model;
+package algs.example.gui.problems.rangeQuery.model;
+
+import algs.example.gui.model.IActiveRectangle;
+import algs.example.gui.model.IRetrieveKDTree;
+import algs.example.gui.problems.rangeQuery.ISelectable;
+import algs.model.IMultiPoint;
+import algs.model.IRectangle;
+import algs.model.kdtree.KDFactory;
+import algs.model.kdtree.KDTree;
 
 /**
- * Defines a model which can be extended on a problem-by-problem basis.
+ * Contains the model relevant to the Range Query problem. We extend
+ * the NearestNeighbor Model to be able to access the full KD tree.
  * 
- * @param <E>   type of entity
- * 
+ * @param <E>  The entity type of the underlying model.
  * @author George Heineman
  * @version 1.0, 6/15/08
  * @since 1.0
  */
-public abstract class Model<E> {
-	
+public class Model<E extends ISelectable> extends algs.example.gui.model.Model<SelectableMultiPoint> 
+	implements IActiveRectangle, IRetrieveKDTree {
+
+	/** Maintain KD tree for points. */
+	protected KDTree tree;
+
+	/** Query rectangle.  */
+	protected IRectangle targetRect;
+
+	/** Should tree be balanced. */
+	protected boolean balanced = true;
+
 	/** 
-	 * Entities which are being considered for intersection.
+	 * Construct a KD tree (balanced or might not be) from the items set.
 	 * 
-	 * Note that items[0] is a potential location where a dynamically created
-	 * element is to be found. If no such item exists, then its value is computed 
-	 * from defaultEntity().
+	 * @param items   set of items that make up the input set.
 	 */
-	protected E[]  items;
-	
-	/** Listener (no more than 1). */
-	protected IModelUpdated<E> listener;
-	
+	@Override
+	public void setItems(SelectableMultiPoint[] items) {
+		this.items = items;
+
+		// now build balanced KD tree.
+		if (balanced) {
+			tree = KDFactory.generate(items);
+		} else {
+			// Code to create tree without balancing.
+			tree = new KDTree(2);
+			for (IMultiPoint imp: items) {
+				tree.insert(imp);
+			}
+		}
+	}	
+
 	/** 
-	 * Return the array of entities for processing.
-	 * 
-	 * It is assumed that the items are untouched by those who get access to it
-	 * via this method.  No way to enforce this.
+	 * Reset the selection status of all items.
 	 */
-	public E[] items () {
-		return items;
-	}
-	
-	/**
-	 * Set the items for the model. 
-	 * 
-	 * Note that there is room set aside for the dynamic entity. 
-	 * 
-	 * @param items
-	 */
-	public abstract void setItems(E[] items);
-	
-		
-	/** Tell the world about the model change. */
-	protected void modelUpdated() {
-		if (listener == null) { return; }
-		
-		listener.modelUpdated(this);
+	public void deselectAll() {
+		if (items == null) {
+			return;
+		}
+		for (IMultiPoint imp: items) {
+			((ISelectable)imp).select(false);
+		}
 	}
 
-	
-	/** Register a listener with the model. */
-	public void setListener (IModelUpdated<E> list) {
-		this.listener = list;
+	/** Set the target query rectangle. */
+	public void setActiveRectangle(IRectangle rect) {
+		targetRect = rect;
+
+		//alert listeners
+		modelUpdated();
 	}
 
-	
+	/** Return the target query. */
+	public IRectangle getActiveRectangle() {
+		return targetRect;
+	}
+
+	/** Determine if the constructed KD tree is constructed by balanced algorithm. */
+	public void setBalanced (boolean b) {
+		this.balanced = b;
+	}
+
+	public KDTree getTree() {
+		return tree;
+	}
+
 }

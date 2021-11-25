@@ -1,4 +1,4 @@
-package algs.chapter10.table2;
+package algs.chapter9.table7;
 
 
 /**

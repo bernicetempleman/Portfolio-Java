@@ -1,4 +1,4 @@
-package algs.chapter10.table1;
+package algs.chapter9.table6;
 
 /**
  * Generate results of table showing results at d={2,10} for points in 
@@ -34,6 +34,7 @@ public class Main {
 		return points;
 	}	
 
+
 	/**
 	 * Compute and display the given table.
 	 * 
@@ -49,26 +50,26 @@ public class Main {
 		int scale = 1;
 
 		System.out.println("n\tRec(2)\tDbl(2)\tRec(10)\tDbl(10)");
-
+		
 		// this is table 9-6.
 		//  n=4 to 131,072 random with dimensions {2, 10}. 
 		for (int n=4; n <= 131072; n*=2) { /* start from 4 for table 9-7 */
 			double dr[] = new double[2];
 			double r[] = new double[2];
-
+			
 			for (int d = 2; d <= 10; d *= 5) {
 				for (int t = 1; t <= NUM_TRIALS; t++) {
 					// create n random points in d dimensions drawn from [0,1] uniformly
 					IMultiPoint[] points = randomPoints (n, d, scale);
-
+	
 					// Perform a number of searches drawn from same [0,1] uniformly.
 					System.gc();
 					IMultiPoint[] searchPoints = randomPoints (numSearches, d, scale);
-
+	
 					// This forms the basis for the kd-tree. These are the points p. Note
 					// that the KDTree generate method will likely shuffle the points. 
 					KDTree tree= KDFactory.generate(points);
-
+	
 					DimensionalNode.numDoubleRecursions=0;
 					DimensionalNode.numRecursions=0;
 					for (IMultiPoint imp : searchPoints) {
@@ -78,8 +79,34 @@ public class Main {
 					r[d/10] = DimensionalNode.numRecursions/(1.0*numSearches);
 				}
 			}
-
+			
 			System.out.println(n + "\t" + r[0] + "\t" + dr[0] + "\t" + r[1] + "\t" + dr[1]);
 		}
+
+//		// Just jump right to n=131,072
+//		for (int d = 2; d <= 15; d++) {
+//			int n = 131072;
+//			// create n random points in d dimensions drawn from [0,1] uniformly
+//			IMultiPoint[] points = randomPoints (n, d, scale);
+//		
+//			// Perform a number of searches drawn from same [0,1] uniformly.
+//			System.gc();
+//			IMultiPoint[] searchPoints = randomPoints (numSearches, d, scale);
+//			
+//			// This forms the basis for the kd-tree. These are the points p. Note
+//			// that the KDTree generate method will likely shuffle the points. 
+//			KDTree tree= KDFactory.generate(points);
+//			
+//			DimensionalNode.numDoubleRecursions=0;
+//			DimensionalNode.numRecursions=0;
+//			System.gc();
+//			for (IMultiPoint imp : searchPoints) {
+//				tree.nearest(imp);
+//			}
+//			double dr = DimensionalNode.numDoubleRecursions/(1.0*numSearches);
+//			double r = DimensionalNode.numRecursions/(1.0*numSearches);
+//			
+//			System.out.println(n + "," + r + "," + dr);
+//		}
 	}
 }

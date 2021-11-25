@@ -1,4 +1,5 @@
-package algs.chapter10.figure9;
+package algs.chapter9.figure23;
+
 
 /**
  * Try to find dimension 'n' cutoff beyond which bruteforce comparison of 
